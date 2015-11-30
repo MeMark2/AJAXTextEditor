@@ -2,19 +2,19 @@
 <head>
 	<title>AJAX Text Editor</title>
 
-	<script type="text/javascript" src="RemoteTextEditor.js"/>
+	<script type="text/javascript" src="RemoteTextEditor.js"></script>
 	<script type="text/javascript">
 	textEdit = new RemoteTextEditor("editArea", "fileSelector", "MyFiles");
+	textEdit.GetFileList();
 	</script>
 </head>
 <body>
 	<h2>File Editor</h2>
 	<h3>Load a file to edit?</h3>
-	<select id="fileSelector"></select>
-	<button>Load</button>
+	<select id="fileSelector"></select><button onclick="">Load</button>
 	<h3>Edit file text:</h3>
 	<textarea id="editArea"></textarea>
 	<h3>Save file:</h3>
-	File Name: <input id="fileName" type="text"/> <button>Save</button>
+	File Name: <input id="fileName" type="text"/> <button onclick="">Save</button>
 </body>
 </html>

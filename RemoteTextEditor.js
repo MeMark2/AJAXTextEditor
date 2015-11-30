@@ -17,26 +17,33 @@ function RemoteTextEditor(textBoxID, textFileSelectID, filesDir) {
 
 	this.GetFileList = (function() {
 		// Create request function
-		xmlhttp.onreadystatechange = function(selectEleID){
-			var filesArray = JSON.parse(xmlhttp.responseText);
-			var selectEle = document.getElementById(selectEleID);
-			var selectOptions = "";
+		this.xmlhttp.onreadystatechange = (function(){
+			if (this.xmlhttp.readyState == 4 && this.xmlhttp.status == 200) {
+				var response = this.xmlhttp.responseText;
+				console.log("response: " + response)
+				var filesArray = JSON.parse(response);
+				var selectElement = document.getElementById(this.textFileSelectID);
+				var selectOptions = "";
 
-			while (selectEle.length > 0) {
-				selectEle.remove(0);
+				while (selectElement.length > 0) {
+					selectElement.remove(0);
+				}
+
+				for (var file = 0; file < filesArray.length; file++) {
+					var option = document.createElement("OPTION");
+					option.value = filesArray[file];
+					option.text = filesArray[file];
+					selectElement.add(option);
+				};
 			}
 
-			for (var file = 0; file < filesArray.length; file++) {
-				selectEle.add(filesArray[file]);
-			};
-
-		}(this.textFileSelectID);
+		}).bind(this)
 
 		// Create request
-		xmlhttp.open("GET", "GetFileList.php");
+		this.xmlhttp.open("GET", "GetFileList.php");
 
 		// send request
-		xmlhttp.send(null);
+		this.xmlhttp.send(null);
 	}).bind(this)
 
 
