@@ -1,9 +1,25 @@
-function RemoteTextEditor(textBoxID, textFileSelectID) {
+function RemoteTextEditor(textBoxID, textFileSelectID, nameTextBoxID) {
 	this.textBoxID = textBoxID;
 	this.textFileSelectID = textFileSelectID;
-	this.filesDir = "MyFiles/";
+	this.nameTextBoxID = nameTextBoxID;
+
+	this.filesDir = "MyFiles/"; // Default directory for files
+	this.errorBoxID = "error"; // Default id for the error message box
+
 	this.xmlhttp = new XMLHttpRequest();
 
+
+
+	/*
+	Name:			
+	Description:
+
+	Parameters:
+
+	Output:
+
+	Return:
+	*/
 	this.SaveFile = (function(fileName) {
 
 		xmlhttp.onreadystatechange = (function() {
@@ -16,7 +32,16 @@ function RemoteTextEditor(textBoxID, textFileSelectID) {
 
 
 
+	/*
+	Name:			
+	Description:
 
+	Parameters:
+
+	Output:
+
+	Return:
+	*/
 	this.GetFileList = (function() {
 		// Create response function
 		this.xmlhttp.onreadystatechange = (function(){
@@ -48,7 +73,16 @@ function RemoteTextEditor(textBoxID, textFileSelectID) {
 
 
 
+	/*
+	Name:			
+	Description:
 
+	Parameters:
+
+	Output:
+
+	Return:
+	*/
 	this.LoadFileContents = (function() {
 		// Create response function
 		this.xmlhttp.onreadystatechange = (function(){
