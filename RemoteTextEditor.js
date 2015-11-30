@@ -1,13 +1,15 @@
-function RemoteTextEditor(textBoxID, textFileSelectID, filesDir) {
+function RemoteTextEditor(textBoxID, textFileSelectID) {
 	this.textBoxID = textBoxID;
 	this.textFileSelectID = textFileSelectID;
-	this.filesDir = filesDir;
+	this.filesDir = "MyFiles/";
 	this.xmlhttp = new XMLHttpRequest();
 
 	this.SaveFile = (function(fileName) {
 
 		xmlhttp.onreadystatechange = (function() {
+			if (this.xmlhttp.readyState == 4 && this.xmlhttp.status == 200) {
 
+			}
 		}).bind(this)
 
 	}).bind(this)
@@ -16,11 +18,10 @@ function RemoteTextEditor(textBoxID, textFileSelectID, filesDir) {
 
 
 	this.GetFileList = (function() {
-		// Create request function
+		// Create response function
 		this.xmlhttp.onreadystatechange = (function(){
 			if (this.xmlhttp.readyState == 4 && this.xmlhttp.status == 200) {
 				var response = this.xmlhttp.responseText;
-				console.log("response: " + response)
 				var filesArray = JSON.parse(response);
 				var selectElement = document.getElementById(this.textFileSelectID);
 				var selectOptions = "";
@@ -36,7 +37,6 @@ function RemoteTextEditor(textBoxID, textFileSelectID, filesDir) {
 					selectElement.add(option);
 				};
 			}
-
 		}).bind(this)
 
 		// Create request
@@ -50,7 +50,18 @@ function RemoteTextEditor(textBoxID, textFileSelectID, filesDir) {
 
 
 	this.LoadFileContents = (function() {
+		// Create response function
+		this.xmlhttp.onreadystatechange = (function(){
+			if (this.xmlhttp.readyState == 4 && this.xmlhttp.status == 200) {
+				document.getElementById(this.textBoxID).innerHTML = this.xmlhttp.responseText;
+			}
+		}).bind(this)
 
+		// Create request
+		this.xmlhttp.open("GET", this.filesDir + document.getElementById(this.textFileSelectID).value);
+
+		// send request
+		this.xmlhttp.send(null);
 	}).bind(this)
 
 

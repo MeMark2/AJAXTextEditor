@@ -4,14 +4,14 @@
 
 	<script type="text/javascript" src="RemoteTextEditor.js"></script>
 	<script type="text/javascript">
-	textEdit = new RemoteTextEditor("editArea", "fileSelector", "MyFiles");
+	textEdit = new RemoteTextEditor("editArea", "fileSelector");
 	textEdit.GetFileList();
 	</script>
 </head>
 <body>
 	<h2>File Editor</h2>
 	<h3>Load a file to edit?</h3>
-	<select id="fileSelector"></select><button onclick="">Load</button>
+	<select id="fileSelector"></select><button onclick="textEdit.LoadFileContents()">Load</button>
 	<h3>Edit file text:</h3>
 	<textarea id="editArea"></textarea>
 	<h3>Save file:</h3>
