@@ -7,11 +7,6 @@
 	textEdit = new RemoteTextEditor("editArea", "fileSelector", "fileName");
 	textEdit.GetFileList();
 
-	function Test(){
-
-		console.log(document.getElementById("editArea").value)
-	}
-
 
 	function save(textEditor){
 		var fileExt = ".txt" // default file extension
@@ -52,14 +47,14 @@
 	<h3>Load a file to edit?</h3>
 	<select id="fileSelector"></select><button onclick="textEdit.LoadFileContents()">Load</button>
 	<h3>Edit file text:</h3>
-	<textarea id="editArea"></textarea>
-	<h3>Save file:</h3>
+	<textarea id="editArea" rows="8", cols="50"></textarea>
+	<h3>Save file: <span id="saved"></span></h3>
 	File Name: <input id="fileName" type="text"/>.txt <button id="saveButton" onclick="save(textEdit)">Save</button>
 	<div id="overwriteMessage" style="display:none;">
 		<p>This file already exists! Do you want to overwrite it?</p>
 		<button onclick="hideOverwrite();textEdit.SaveFile()">Overwrite</button> <button onclick="hideOverwrite()">Cancel</button>
 	</div>
 	<p id="error"></p>
-	<p id="saved"></p>
+	
 </body>
 </html>

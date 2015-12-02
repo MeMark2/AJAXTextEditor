@@ -56,6 +56,10 @@ function RemoteTextEditor(textBoxID, textFileSelectID, nameTextBoxID) {
 			        	document.getElementById(this.errorBoxID).innerHTML = ""
 			        	document.getElementById(this.saveSuccessBoxID).innerHTML = "Saved!"
 
+			        	window.setTimeout((function() {
+			        		document.getElementById(this.saveSuccessBoxID).innerHTML = ""
+			        	}).bind(this), 2000)
+
 			        	// Reload file list
 			        	this.GetFileList()
 			        }
