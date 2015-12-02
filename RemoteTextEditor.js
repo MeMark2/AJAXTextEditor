@@ -32,12 +32,10 @@ function RemoteTextEditor(textBoxID, textFileSelectID, nameTextBoxID) {
 	/*
 	Name:			SaveFile()
 	Description:
+		This method validates the file name before sending a request to save the file with the content specified.
 
-	Parameters:
-
-	Output:
-
-	Return:
+	Parameters: None
+	Return: Void
 	*/
 	this.SaveFile = (function() {
 		if (this.IsFileNameValid()) {
@@ -57,6 +55,7 @@ function RemoteTextEditor(textBoxID, textFileSelectID, nameTextBoxID) {
 			        	document.getElementById(this.errorBoxID).innerHTML = ""
 			        	document.getElementById(this.saveSuccessBoxID).innerHTML = "Saved!"
 
+			        	// Clear saved message after 2 seconds
 			        	window.setTimeout((function() {
 			        		document.getElementById(this.saveSuccessBoxID).innerHTML = ""
 			        	}).bind(this), 2000)
@@ -73,10 +72,7 @@ function RemoteTextEditor(textBoxID, textFileSelectID, nameTextBoxID) {
 
 			// send request
 			this.xmlhttp.send(requestParams);
-		} else if (document.getElementById(this.errorBoxID) != null) {
-
 		}
-
 	}).bind(this)
 
 
@@ -84,12 +80,11 @@ function RemoteTextEditor(textBoxID, textFileSelectID, nameTextBoxID) {
 	/*
 	Name:			GetFileList()
 	Description:
+		This method requests the server for a list of the files in the user's folder 
+		and fills the file selector with an option for each file.
 
-	Parameters:
-
-	Output:
-
-	Return:
+	Parameters: None
+	Return: Void
 	*/
 	this.GetFileList = (function() {
 		// Create response function
@@ -125,12 +120,11 @@ function RemoteTextEditor(textBoxID, textFileSelectID, nameTextBoxID) {
 	/*
 	Name:			LoadFileContents()
 	Description:
+		This mehod requests the contents of a the file selected by the file selector
+		and inserts the received contents into the text box.
 
-	Parameters:
-
-	Output:
-
-	Return:
+	Parameters: None
+	Return: Void
 	*/
 	this.LoadFileContents = (function() {
 		// Create response function
@@ -158,12 +152,11 @@ function RemoteTextEditor(textBoxID, textFileSelectID, nameTextBoxID) {
 	/*
 	Name:			IsFileNameValid()
 	Description:
+		This method validates the name of a file.
+		The following regex is used: /^[0-9a-zA-Z ]+$/
 	
-	Parameters:
-	
-	Output:
-	
-	Return:
+	Parameters: None
+	Return: true if the file name is valid, false otherwise
 	*/
 	this.IsFileNameValid = (function() {
 		var valid = false;
