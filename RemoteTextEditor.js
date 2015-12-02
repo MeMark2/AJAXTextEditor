@@ -3,6 +3,7 @@ Filename:	RemoteTextEditor.js
 Project:	AJAX Text Editor
 Programmer:	Jorge Ramirez
 Description:	
+	This file contains the code for a AJAX based text editor class.
 
 Date: 30 November 2015 (Monday)
 */
@@ -29,7 +30,7 @@ function RemoteTextEditor(textBoxID, textFileSelectID, nameTextBoxID) {
 
 
 	/*
-	Name:			
+	Name:			SaveFile()
 	Description:
 
 	Parameters:
@@ -81,7 +82,7 @@ function RemoteTextEditor(textBoxID, textFileSelectID, nameTextBoxID) {
 
 
 	/*
-	Name:			
+	Name:			GetFileList()
 	Description:
 
 	Parameters:
@@ -122,7 +123,7 @@ function RemoteTextEditor(textBoxID, textFileSelectID, nameTextBoxID) {
 
 
 	/*
-	Name:			
+	Name:			LoadFileContents()
 	Description:
 
 	Parameters:
@@ -139,8 +140,14 @@ function RemoteTextEditor(textBoxID, textFileSelectID, nameTextBoxID) {
 			}
 		}).bind(this)
 
+		// File to request
+		var filePath = this.filesDir + document.getElementById(this.textFileSelectID).value
+
+		// Add a unique identifier to bypass caching of the file
+		filePath += '?_=' + new Date().getTime()
+
 		// Create request
-		this.xmlhttp.open("GET", this.filesDir + document.getElementById(this.textFileSelectID).value);
+		this.xmlhttp.open("GET", filePath);
 
 		// send request
 		this.xmlhttp.send(null);
@@ -149,7 +156,7 @@ function RemoteTextEditor(textBoxID, textFileSelectID, nameTextBoxID) {
 
 
 	/*
-	Name:			
+	Name:			IsFileNameValid()
 	Description:
 	
 	Parameters:
