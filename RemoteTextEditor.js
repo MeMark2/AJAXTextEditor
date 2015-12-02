@@ -1,3 +1,20 @@
+/*
+Filename:	RemoteTextEditor.js
+Project:	AJAX Text Editor
+Programmer:	Jorge Ramirez
+Description:	
+
+Date: 30 November 2015 (Monday)
+*/
+
+
+
+/*
+Name:	RemoteTextEditor
+
+Description:
+	This class models a web based text editor.
+*/
 function RemoteTextEditor(textBoxID, textFileSelectID, nameTextBoxID) {
 	this.textBoxID = textBoxID;
 	this.textFileSelectID = textFileSelectID;
@@ -5,6 +22,7 @@ function RemoteTextEditor(textBoxID, textFileSelectID, nameTextBoxID) {
 
 	this.filesDir = "MyFiles/"; // Default directory for files
 	this.errorBoxID = "error"; // Default id for the error message box
+	this.saveSuccessBoxID = "saved"; // Default id for confirming a successful save
 
 	this.xmlhttp = new XMLHttpRequest();
 
@@ -20,13 +38,39 @@ function RemoteTextEditor(textBoxID, textFileSelectID, nameTextBoxID) {
 
 	Return:
 	*/
-	this.SaveFile = (function(fileName) {
+	this.SaveFile = (function() {
+		if (this.IsFileNameValid()) {
+			// Create request parameters
+			var requestParams = "name=" + document.getElementById(nameTextBoxID).value;
+			requestParams += "&content=" + document.getElementById(textBoxID).value;
 
-		xmlhttp.onreadystatechange = (function() {
-			if (this.xmlhttp.readyState == 4 && this.xmlhttp.status == 200) {
+			this.xmlhttp.onreadystatechange = (function() {
+				if (this.xmlhttp.readyState == 4 && this.xmlhttp.status == 200) {
+					var response = this.xmlhttp.responseText
 
-			}
-		}).bind(this)
+					if (response == "failure") {
+			        	// Display error saving message
+			        	document.getElementById(this.errorBoxID).innerHTML = "Unexpected error. File could not save.";
+			        } else {
+			        	// Clear error message
+			        	document.getElementById(this.errorBoxID).innerHTML = ""
+			        	document.getElementById(this.saveSuccessBoxID).innerHTML = "Saved!"
+
+			        	// Reload file list
+			        	this.GetFileList()
+			        }
+				}
+			}).bind(this)
+
+			// Create request
+			this.xmlhttp.open("POST", "SaveFile.php");
+			this.xmlhttp.setRequestHeader('Content-type', 'application/x-www-form-urlencoded');
+
+			// send request
+			this.xmlhttp.send(requestParams);
+		} else if (document.getElementById(this.errorBoxID) != null) {
+
+		}
 
 	}).bind(this)
 
@@ -87,7 +131,7 @@ function RemoteTextEditor(textBoxID, textFileSelectID, nameTextBoxID) {
 		// Create response function
 		this.xmlhttp.onreadystatechange = (function(){
 			if (this.xmlhttp.readyState == 4 && this.xmlhttp.status == 200) {
-				document.getElementById(this.textBoxID).innerHTML = this.xmlhttp.responseText;
+				document.getElementById(this.textBoxID).value = this.xmlhttp.responseText;
 			}
 		}).bind(this)
 
@@ -100,8 +144,36 @@ function RemoteTextEditor(textBoxID, textFileSelectID, nameTextBoxID) {
 
 
 
+	/*
+	Name:			
+	Description:
+	
+	Parameters:
+	
+	Output:
+	
+	Return:
+	*/
+	this.IsFileNameValid = (function() {
+		var valid = false;
+		// Create regex pattern for verification
+        var namePatt = /^[0-9a-zA-Z ]+$/;
 
-	this.Sample = (function() {
+        // Get the file name
+        var fileName = document.getElementById(this.nameTextBoxID).value;
 
+        // Compare the input to the pattern.
+        fileName = fileName.match(namePatt);
+
+        if (fileName == null) {
+        	// Display invalid file name message
+        	document.getElementById(this.errorBoxID).innerHTML = "That file name is not valid. Only letters, number and spaces are allowed.";
+        } else {
+        	// Clear invalid file name message
+        	document.getElementById(this.errorBoxID).innerHTML = ""
+        	valid = true
+        }
+
+        return valid
 	}).bind(this)
 }

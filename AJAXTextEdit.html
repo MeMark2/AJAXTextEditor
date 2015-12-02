@@ -6,6 +6,45 @@
 	<script type="text/javascript">
 	textEdit = new RemoteTextEditor("editArea", "fileSelector", "fileName");
 	textEdit.GetFileList();
+
+	function Test(){
+
+		console.log(document.getElementById("editArea").value)
+	}
+
+
+	function save(textEditor){
+		var fileExt = ".txt" // default file extension
+		// Check if name is in use
+		var fileNames = document.getElementById("fileSelector").options
+		var newFileName = document.getElementById("fileName").value + fileExt
+		var inArray = false;
+
+		for (var fileOption = 0; fileOption < fileNames.length && !inArray; fileOption++) {
+			if (fileNames[fileOption].value == newFileName)
+			{
+				inArray = true
+			}
+		};
+
+		if (inArray) {
+			// Confirm overwrite
+			showOverwriteMessage()
+		} else {
+			// Save file
+			textEditor.SaveFile()
+		}
+	}
+
+	function showOverwriteMessage(){
+		document.getElementById("saveButton").disabled = true
+		document.getElementById("overwriteMessage").style.display = "Block"
+	}
+
+	function hideOverwrite(){
+		document.getElementById("saveButton").disabled = false
+		document.getElementById("overwriteMessage").style.display = "None"
+	}
 	</script>
 </head>
 <body>
@@ -15,7 +54,12 @@
 	<h3>Edit file text:</h3>
 	<textarea id="editArea"></textarea>
 	<h3>Save file:</h3>
-	File Name: <input id="fileName" type="text"/> <button onclick="">Save</button>
+	File Name: <input id="fileName" type="text"/>.txt <button id="saveButton" onclick="save(textEdit)">Save</button>
+	<div id="overwriteMessage" style="display:none;">
+		<p>This file already exists! Do you want to overwrite it?</p>
+		<button onclick="hideOverwrite();textEdit.SaveFile()">Overwrite</button> <button onclick="hideOverwrite()">Cancel</button>
+	</div>
 	<p id="error"></p>
+	<p id="saved"></p>
 </body>
 </html>
